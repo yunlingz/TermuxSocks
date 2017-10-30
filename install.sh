@@ -8,13 +8,12 @@ pkg install vim
 
 TOPDIR=$(pwd)
 
-cd "$TOPDIR/proxychains-ng"
-./configure --prefix=$HOME/pc
+cd "$TOPDIR/proxychains-ng" || return
+./configure --prefix="$HOME/pc"
 make
 make install
-cd $TOPDIR
+make install-config
+cd "$TOPDIR" || return
 
-mkdir -p "$HOME/.proxychains"
-cp "$TOPDIR/proxychains-ng/src/proxychains.conf" "$HOME/.proxychains/proxychains.conf"
-
-
+echo "export PATH=\"$HOME/pc/bin:$PATH\"" >> "$HOME/.bash_profile"
+. "$HOME/.bash_profile"
